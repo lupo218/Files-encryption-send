@@ -26,11 +26,8 @@ def pwd_xlsx(file,new_filename,pwd_str):
     xcl.DisplayAlerts = False
     # When saving, you can set the access password .
     wb.SaveAs(new_filename, 51, pwd_str, '') # XlFileFormat enumeration is 51 to xsls
+    wb.Close()
     xcl.Quit()
-
-# pwd_str = '654321'# New password customization
-# pwd_xlsx('f:\\Temp\\1.xlsx','f:\\Temp\\2.xlsx',pwd_str)
-
 
 def pwd_docx(file,new_filename,pwd_str):
     file = os.path.abspath(file) # convert path to absolute path
@@ -43,13 +40,6 @@ def pwd_docx(file,new_filename,pwd_str):
     doc.SaveAs(new_filename,12,None,pwd_str)
     doc.Close()
     word.Quit()
-
-# file = 'f:\\Temp\\טופס פרטי לקוח .doc'
-# new_filename = 'f:\\Temp\\טופס פרטי לקוחי.doc'
-# pwd_docx(file,new_filename,generate_random_password())
-
-
-
 
 def encrypt_pdf(file,new_filename,pwd_str):
     file = os.path.abspath(file)  # convert path to absolute path
@@ -66,9 +56,7 @@ def encrypt_pdf(file,new_filename,pwd_str):
         with open(new_filename, "wb") as outputStream:
             output.write(outputStream)
     pdf_in_file.close()
-
-# pdfile = 'F:\\Temp\\101-000101660_101.pdf'
-# encrypt_pdf(pdfile)
+    return pwd_str
 
 
 
