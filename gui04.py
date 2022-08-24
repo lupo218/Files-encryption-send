@@ -32,7 +32,7 @@ class Ui_GroupBox(object):
         self.pushButton_2.setGeometry(QtCore.QRect(370, 80, 101, 31))
         self.pushButton_2.setObjectName("pushButton_2")
         self.lineEdit_2 = QtWidgets.QLineEdit(GroupBox)
-        self.lineEdit_2.setGeometry(QtCore.QRect(10, 80, 130, 31))
+        self.lineEdit_2.setGeometry(QtCore.QRect(10, 80, 145, 31))
         self.lineEdit_2.setObjectName("lineEdit_2")
         self.lineEdit_2.hide()
 
@@ -72,14 +72,39 @@ class Ui_GroupBox(object):
                 self.lineEdit_2.show()
 
         elif self.fname[0].split('/')[-1].split('.')[-1].upper() == 'doc'.upper():
-            main.pwd_docx(self.fname[0], nname, npass)
+            password = None
+            password = main.pwd_docx(self.fname[0], nname, npass)
+            if password:
+                self.label.setText('-- The file is encrypted!')
+                self.lineEdit.setText(nname.replace('/','\\'))
+                self.lineEdit_2.setText(password)
+                self.lineEdit_2.show()
+
         elif self.fname[0].split('/')[-1].split('.')[-1].upper() == 'xlsx'.upper():
-            main.pwd_xlsx(self.fname[0], nname, npass)
+            password = None
+            password =  main.pwd_xlsx(self.fname[0], nname, npass)
+            if password:
+                self.label.setText('-- The file is encrypted!')
+                self.lineEdit.setText(nname.replace('/','\\'))
+                self.lineEdit_2.setText(password)
+                self.lineEdit_2.show()
         elif self.fname[0].split('/')[-1].split('.')[-1].upper() == 'csv'.upper():
+            password = None
             nname = nname.replace(self.fname[0].split('/')[-1].split('.')[-1], 'xlsx') # CSV files cannot be encrypted and must be converted
-            main.pwd_xlsx(self.fname[0], nname, npass)
+            password =  main.pwd_xlsx(self.fname[0], nname, npass)
+            if password:
+                self.label.setText('-- The file is encrypted!')
+                self.lineEdit.setText(nname.replace('/','\\'))
+                self.lineEdit_2.setText(password)
+                self.lineEdit_2.show()
         elif self.fname[0].split('/')[-1].split('.')[-1].upper() == 'pdf'.upper():
-            main.encrypt_pdf(self.fname[0], nname, npass)
+            password = None
+            password =  main.encrypt_pdf(self.fname[0], nname, npass)
+            if password:
+                self.label.setText('-- The file is encrypted!')
+                self.lineEdit.setText(nname.replace('/','\\'))
+                self.lineEdit_2.setText(password)
+                self.lineEdit_2.show()
 
 if __name__ == "__main__":
     import sys
