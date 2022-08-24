@@ -29,18 +29,18 @@ class Ui_GroupBox(object):
         self.pushButton = QtWidgets.QPushButton(GroupBox)
         self.pushButton.setGeometry(QtCore.QRect(260, 80, 101, 31))
         self.pushButton.setObjectName("pushButton")
-        self.pushButton.clicked.connect(self.loadCsv)
         self.pushButton_2 = QtWidgets.QPushButton(GroupBox)
         self.pushButton_2.setGeometry(QtCore.QRect(370, 80, 101, 31))
         self.pushButton_2.setObjectName("pushButton_2")
-        self.pushButton_2.clicked.connect(self.run)
         self.label_2 = QtWidgets.QLabel(GroupBox)
         self.label_2.setGeometry(QtCore.QRect(10, 50, 151, 20))
         self.label_2.setText("")
         self.label_2.setObjectName("label_2")
-
         self.retranslateUi(GroupBox)
         QtCore.QMetaObject.connectSlotsByName(GroupBox)
+
+        self.pushButton.clicked.connect(self.loadCsv)
+        self.pushButton_2.clicked.connect(self.run)
 
     def retranslateUi(self, GroupBox):
         _translate = QtCore.QCoreApplication.translate
@@ -63,7 +63,10 @@ class Ui_GroupBox(object):
             npass = main.generate_random_password() # generate_random_password
 
         if self.fname[0].split('/')[-1].split('.')[-1].upper() == 'docx'.upper():
-            main.pwd_docx(self.fname[0], nname, npass)
+            password = None
+            password = main.pwd_docx(self.fname[0], nname, npass)
+            if password:
+                self.label_2.setText(password)
         elif self.fname[0].split('/')[-1].split('.')[-1].upper() == 'doc'.upper():
             main.pwd_docx(self.fname[0], nname, npass)
         elif self.fname[0].split('/')[-1].split('.')[-1].upper() == 'xlsx'.upper():

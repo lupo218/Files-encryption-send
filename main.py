@@ -28,6 +28,8 @@ def pwd_xlsx(file,new_filename,pwd_str):
     wb.SaveAs(new_filename, 51, pwd_str, '') # XlFileFormat enumeration is 51 to xsls
     wb.Close()
     xcl.Quit()
+    return pwd_str
+
 
 def pwd_docx(file,new_filename,pwd_str):
     file = os.path.abspath(file) # convert path to absolute path
@@ -40,6 +42,7 @@ def pwd_docx(file,new_filename,pwd_str):
     doc.SaveAs(new_filename,12,None,pwd_str)
     doc.Close()
     word.Quit()
+    return pwd_str
 
 def encrypt_pdf(file,new_filename,pwd_str):
     file = os.path.abspath(file)  # convert path to absolute path
