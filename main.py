@@ -26,10 +26,9 @@ def pwd_xlsx(file,new_filename,pwd_str):
     xcl.DisplayAlerts = False
     # When saving, you can set the access password .
     wb.SaveAs(new_filename, 51, pwd_str, '') # XlFileFormat enumeration is 51 to xsls
+    wb.Close()
     xcl.Quit()
-
-# pwd_str = '654321'# New password customization
-# pwd_xlsx('f:\\Temp\\1.xlsx','f:\\Temp\\2.xlsx',pwd_str)
+    return pwd_str
 
 
 def pwd_docx(file,new_filename,pwd_str):
@@ -43,13 +42,7 @@ def pwd_docx(file,new_filename,pwd_str):
     doc.SaveAs(new_filename,12,None,pwd_str)
     doc.Close()
     word.Quit()
-
-# file = 'f:\\Temp\\טופס פרטי לקוח .doc'
-# new_filename = 'f:\\Temp\\טופס פרטי לקוחי.doc'
-# pwd_docx(file,new_filename,generate_random_password())
-
-
-
+    return pwd_str
 
 def encrypt_pdf(file,new_filename,pwd_str):
     file = os.path.abspath(file)  # convert path to absolute path
@@ -66,11 +59,36 @@ def encrypt_pdf(file,new_filename,pwd_str):
         with open(new_filename, "wb") as outputStream:
             output.write(outputStream)
     pdf_in_file.close()
+    return pwd_str
 
-# pdfile = 'F:\\Temp\\101-000101660_101.pdf'
-# encrypt_pdf(pdfile)
+def send_mail(Subject, Message, address,attachment=None ):
+    const = win32com.client.constants
+    olMailItem = 0x0
+    obj = win32com.client.Dispatch("Outlook.Application")
+    newMail = obj.CreateItem(olMailItem)
+    newMail.Subject = Subject
+    # newMail.Body = Message
+    newMail.BodyFormat = 2  # olFormatHTML https://msdn.microsoft.com/en-us/library/office/aa219371(v=office.11).aspx
+    newMail.HTMLBody = f"<HTML><BODY>{Message}</BODY></HTML>"
+    newMail.To = address
+    if attachment:
+        attachment1 = os.path.normpath(attachment)
+        newMail.Attachments.Add(Source=attachment1)
+        newMail.display(False)
+    newMail.Send()
 
-
+def mail_send(self, file,password):
+    self.label.setText('-- The file is encrypted!')
+    # self.lineEdit.setText(nname.replace('/','\\'))
+    self.lineEdit_2.setText(password)
+    self.lineEdit_2.show()
+    send_mail('Encrypted file from the Samelet company',  # send the file only
+                   'The file is attached to this email, the password will be sent in a separate email',
+                   self.lineEdit.text(), os.path.normpath(file))
+    send_mail('Encrypted file from the Samelet company',
+                   f'The password is: {password}',
+                   self.lineEdit.text())
+    self.lineEdit.setText(os.path.normpath(file)) #write the file name
 
 
 

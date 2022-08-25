@@ -14,35 +14,41 @@ from PyQt5.QtWidgets import QFileDialog
 import main
 
 
+
 class Ui_GroupBox(object):
     def setupUi(self, GroupBox):
         GroupBox.setObjectName("GroupBox")
-        GroupBox.resize(402, 69)
+        GroupBox.resize(490, 125)
         self.lineEdit = QtWidgets.QLineEdit(GroupBox)
-        self.lineEdit.setGeometry(QtCore.QRect(10, 10, 151, 20))
+        self.lineEdit.setGeometry(QtCore.QRect(10, 10, 281, 41))
+        self.lineEdit.setText("")
         self.lineEdit.setObjectName("lineEdit")
         self.label = QtWidgets.QLabel(GroupBox)
-        self.label.setGeometry(QtCore.QRect(180, 10, 171, 16))
+        self.label.setGeometry(QtCore.QRect(310, 20, 171, 31))
         self.label.setObjectName("label")
         self.pushButton = QtWidgets.QPushButton(GroupBox)
-        self.pushButton.setGeometry(QtCore.QRect(170, 40, 75, 23))
+        self.pushButton.setGeometry(QtCore.QRect(260, 80, 101, 31))
         self.pushButton.setObjectName("pushButton")
-        self.pushButton.clicked.connect(self.loadCsv)
         self.pushButton_2 = QtWidgets.QPushButton(GroupBox)
-        self.pushButton_2.setGeometry(QtCore.QRect(250, 40, 75, 23))
+        self.pushButton_2.setGeometry(QtCore.QRect(370, 80, 101, 31))
         self.pushButton_2.setObjectName("pushButton_2")
-        self.pushButton_2.clicked.connect(self.run)
-
+        self.label_2 = QtWidgets.QLabel(GroupBox)
+        self.label_2.setGeometry(QtCore.QRect(10, 50, 151, 20))
+        self.label_2.setText("")
+        self.label_2.setObjectName("label_2")
         self.retranslateUi(GroupBox)
         QtCore.QMetaObject.connectSlotsByName(GroupBox)
-        self.fname = None
+
+        self.pushButton.clicked.connect(self.loadCsv)
+        self.pushButton_2.clicked.connect(self.run)
 
     def retranslateUi(self, GroupBox):
         _translate = QtCore.QCoreApplication.translate
-        GroupBox.setWindowTitle(_translate("GroupBox", "Sender"))
+        GroupBox.setWindowTitle(_translate("GroupBox", "Encrypter"))
         self.label.setText(_translate("GroupBox", "Email address for sending"))
         self.pushButton.setText(_translate("GroupBox", "Select a file"))
         self.pushButton_2.setText(_translate("GroupBox", "Run"))
+
 
 
 ###################################################################################
@@ -57,7 +63,10 @@ class Ui_GroupBox(object):
             npass = main.generate_random_password() # generate_random_password
 
         if self.fname[0].split('/')[-1].split('.')[-1].upper() == 'docx'.upper():
-            main.pwd_docx(self.fname[0], nname, npass)
+            password = None
+            password = main.pwd_docx(self.fname[0], nname, npass)
+            if password:
+                self.label_2.setText(password)
         elif self.fname[0].split('/')[-1].split('.')[-1].upper() == 'doc'.upper():
             main.pwd_docx(self.fname[0], nname, npass)
         elif self.fname[0].split('/')[-1].split('.')[-1].upper() == 'xlsx'.upper():
@@ -67,7 +76,6 @@ class Ui_GroupBox(object):
             main.pwd_xlsx(self.fname[0], nname, npass)
         elif self.fname[0].split('/')[-1].split('.')[-1].upper() == 'pdf'.upper():
             main.encrypt_pdf(self.fname[0], nname, npass)
-
 
 
 
