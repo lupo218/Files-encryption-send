@@ -1,2 +1,5 @@
-# Files-encryption-send
-Encryption with a random password and sending the file in a separate email from the password
+#File encryption tools 
+
+Written for educational purposes
+Please do not use without thorough inspection
+
