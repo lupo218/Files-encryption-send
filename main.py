@@ -77,7 +77,18 @@ def send_mail(Subject, Message, address,attachment=None ):
         newMail.display(False)
     newMail.Send()
 
-# send_mail('test', 'password', 'lupo218@gmail.com','f:\\Temp\\1.docx')
+def mail_send(self, file,password):
+    self.label.setText('-- The file is encrypted!')
+    # self.lineEdit.setText(nname.replace('/','\\'))
+    self.lineEdit_2.setText(password)
+    self.lineEdit_2.show()
+    send_mail('Encrypted file from the Samelet company',  # send the file only
+                   'The file is attached to this email, the password will be sent in a separate email',
+                   self.lineEdit.text(), os.path.normpath(file))
+    send_mail('Encrypted file from the Samelet company',
+                   f'The password is: {password}',
+                   self.lineEdit.text())
+    self.lineEdit.setText(os.path.normpath(file)) #write the file name
 
 
 
