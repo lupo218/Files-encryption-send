@@ -61,7 +61,23 @@ def encrypt_pdf(file,new_filename,pwd_str):
     pdf_in_file.close()
     return pwd_str
 
+def send_mail(Subject, Message, address,attachment=None ):
+    const = win32com.client.constants
+    olMailItem = 0x0
+    obj = win32com.client.Dispatch("Outlook.Application")
+    newMail = obj.CreateItem(olMailItem)
+    newMail.Subject = Subject
+    # newMail.Body = Message
+    newMail.BodyFormat = 2  # olFormatHTML https://msdn.microsoft.com/en-us/library/office/aa219371(v=office.11).aspx
+    newMail.HTMLBody = f"<HTML><BODY>{Message}</BODY></HTML>"
+    newMail.To = address
+    if attachment:
+        attachment1 = os.path.normpath(attachment)
+        newMail.Attachments.Add(Source=attachment1)
+        newMail.display(False)
+    newMail.Send()
 
+# send_mail('test', 'password', 'lupo218@gmail.com','f:\\Temp\\1.docx')
 
 
 
